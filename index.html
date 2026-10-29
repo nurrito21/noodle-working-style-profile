@@ -1,1 +1,57 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Noodle Working Style Profile V8</title></head><body><h1>Noodle Working Style Profile V8</h1><p>Prototype export for GitHub Pages. Rename this file to index.html before uploading.</p></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noodle Working Style Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#FFA7E8;--blue:#80ADCB;--aqua:#91F4EC;--orange:#FD891C;--green:#A9BE0B;--gold:#FFC273;--cream:#FAF0E3;--black:#1D1D1D}
+*{box-sizing:border-box} body{margin:0;background:var(--cream);color:var(--black);font-family:Lora,serif}
+.container{max-width:1100px;margin:auto;padding:32px}.card{background:#fff;padding:32px;border-radius:24px;box-shadow:0 10px 28px rgba(0,0,0,.06);margin-bottom:20px}
+h1,h2,h3{font-family:'Playfair Display',serif}.logo{text-align:center;font-size:60px;font-weight:900}.notice{background:#fff4fb;border-left:6px solid var(--pink);padding:16px;border-radius:12px}
+input,select,textarea{width:100%;padding:16px;font-size:19px;font-family:Lora,serif;border:2px solid var(--blue);border-radius:12px} textarea{min-height:120px}
+label{display:block;font-weight:600;margin:12px 0 8px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.tile{padding:14px;border:2px solid var(--blue);border-radius:12px;cursor:pointer}.tile.selected{background:var(--pink);border-color:var(--pink)}
+.btn{background:var(--pink);border:none;padding:16px 26px;border-radius:999px;font-weight:700;cursor:pointer}.btn:hover{filter:brightness(.98)}
+.progress{height:10px;background:#e5e5e5;border-radius:999px;overflow:hidden;margin:20px 0}.bar{height:100%;width:0;background:var(--pink)}
+#formSection{display:none} #success{display:none}.muted{color:#666}
+</style></head><body>
+<div class="container">
+<div class="card" id="welcome">
+<div class="logo">noodle</div>
+<h1>Getting to Know Your Working Style</h1>
+<p>At Noodle, we know everyone works differently.</p>
+<p>This short profile helps us understand how successful candidates prefer to learn, communicate and receive support.</p>
+<div class="notice"><strong>There are no right or wrong answers.</strong></div><br>
+<button class="btn" onclick="startProfile()">Start Profile</button>
+</div>
+<div id="formSection">
+<div class="progress"><div class="bar" id="bar"></div></div>
+<form id="profileForm">
+<div class="grid">
+<div class="card"><label>Name *</label><input id="name" required></div>
+<div class="card"><label>Role Applied For *</label><input id="role" required></div></div>
+<div class="card"><label>When beginning a new role, I generally:</label><select required><option>Please select...</option><option>Prefer a detailed plan</option><option>Prefer guidance with flexibility</option><option>Prefer to explore independently</option><option>Adapt depending on the situation</option></select></div>
+<div class="card"><label>When learning something new, I find it easiest to:</label><select required><option>Please select...</option><option>Watch someone demonstrate it</option><option>Read written guidance</option><option>Try it myself</option><option>Talk it through with others</option></select></div>
+<div class="card"><label>How do you prefer feedback?</label><select required><option>Please select...</option><option>Regular and informal</option><option>Scheduled check-ins</option><option>Feedback when needed</option><option>A mixture of both</option></select></div>
+<div class="card"><label>When working remotely, I prefer:</label><select required><option>Please select...</option><option>Frequent touchpoints</option><option>A balance of support and independence</option><option>Independence with support available</option></select></div>
+<div class="card"><h3>What helps you feel successful at work? (Choose up to 3)</h3><p id="count">0 of 3 selected</p><div class="tiles" id="tiles"></div></div>
+<div class="card"><label>What helps you do your best work?</label><textarea maxlength="500"></textarea></div>
+<div class="card"><label>What workplace challenges make it harder for you to do your best work?</label><textarea maxlength="500"></textarea></div>
+<div class="card"><label>What can a manager do that helps you perform at your best?</label><textarea maxlength="500"></textarea></div>
+<button class="btn" type="submit">Submit Profile</button>
+</form></div>
+<div class="card" id="success">
+<h2>✅ Profile Submitted</h2>
+<p>Thank you for completing your Working Style Profile.</p>
+<p>Your responses will help us prepare the best possible onboarding experience and provide the support you need to succeed.</p>
+</div>
+</div>
+<script>
+function startProfile(){document.getElementById('welcome').style.display='none';document.getElementById('formSection').style.display='block';}
+const vals=['Clear Goals','Learning Opportunities','Meaningful Work','Career Development','Team Relationships','Feeling Trusted','Autonomy','Recognition','Flexibility','Helping Others'];
+let sel=[];vals.forEach(v=>{let d=document.createElement('div');d.className='tile';d.textContent=v;d.onclick=()=>{if(sel.includes(v)){sel=sel.filter(x=>x!==v);d.classList.remove('selected')}else if(sel.length<3){sel.push(v);d.classList.add('selected')}document.getElementById('count').innerText=sel.length+' of 3 selected';};tiles.appendChild(d);});
+document.getElementById('profileForm').onsubmit=(e)=>{e.preventDefault();document.getElementById('formSection').style.display='none';document.getElementById('success').style.display='block';};
+</script></body></html>
