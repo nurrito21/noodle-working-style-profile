@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noodle Working Style Profile - Version 9</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#FFA7E8;--blue:#80ADCB;--cream:#FAF0E3;--black:#1D1D1D}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);font-family:Lora,serif;color:var(--black)}
+.main{max-width:900px;margin:auto;padding:24px}.card{background:#fff;border-radius:24px;padding:32px;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.logo{text-align:center;margin-bottom:20px}.logo img{max-width:320px;width:100%}
+h1,h2{font-family:'Playfair Display',serif}.subtitle{text-align:center;color:#666}.progress{height:10px;background:#e8e8e8;border-radius:999px;overflow:hidden;margin:24px 0}.bar{height:100%;background:var(--pink);width:0;transition:.3s}
+.screen{display:none}.screen.active{display:block}.tiles{display:grid;gap:12px}.tile{padding:16px;border:2px solid var(--blue);border-radius:14px;cursor:pointer;background:#fff}.tile.selected{background:var(--pink);border-color:var(--pink)}
+.btn{background:var(--pink);border:none;padding:14px 24px;border-radius:999px;font-weight:700;cursor:pointer}.btn:disabled{opacity:.5}.nav{text-align:right;margin-top:24px}
+textarea,input{width:100%;padding:16px;border:2px solid var(--blue);border-radius:12px;font-family:Lora,serif;font-size:18px}.helper{font-size:14px;color:#666}
+.success{text-align:center}
+</style>
+</head>
+<body><div class="main">
+<div class="card">
+<div class="logo"><img src="https://nurrito21.github.io/noodle-working-style-profile/Noodle_Wordmark_Black_Transparent.png" alt="Noodle"></div>
+<div id="welcome" class="screen active">
+<h1>Helping Us Support Your Success</h1>
+<p>At Noodle, we know everyone works differently.</p>
+<p>This short profile helps us understand how successful candidates prefer to learn, communicate and receive support.</p>
+<p><strong>There are no right or wrong answers.</strong></p>
+<button class="btn" onclick="start()">Start Profile</button>
+</div>
+<div id="journey" style="display:none">
+<div class="progress"><div id="bar" class="bar"></div></div>
+<div id="q"></div>
+<div class="nav"><button id="nextBtn" class="btn" disabled onclick="nextQ()">Continue</button></div>
+</div>
+<div id="done" class="screen success">
+<h2>✅ Profile Submitted</h2>
+<p>Thank you for completing your Working Style Profile.</p>
+<p>Your responses will help us prepare the best possible onboarding experience and provide the support you need to succeed.</p>
+</div>
+</div></div>
+<script>
+const qs=[
+{t:'Your Name',type:'text'},
+{t:'Role Applied For',type:'text'},
+{t:'When beginning a new role, I generally:',opts:['Prefer a detailed plan','Prefer guidance with flexibility','Prefer to explore independently','Adapt depending on the situation']},
+{t:'When learning something new, I find it easiest to:',opts:['Watch someone demonstrate it','Read written guidance','Try it myself','Talk it through with others']},
+{t:'How do you prefer feedback?',opts:['Regular and informal','Scheduled check-ins','Feedback when needed','A mixture of both']},
+{t:'When working remotely, I prefer:',opts:['Frequent touchpoints','A balance of support and independence','Independence with support available when needed']},
+{t:'What helps you feel successful at work? Choose up to 3.',multi:['Clear Goals','Learning Opportunities','Meaningful Work','Career Development','Team Relationships','Feeling Trusted','Autonomy','Recognition','Flexibility','Helping Others']},
+{t:'What helps you do your best work?',type:'textarea'},
+{t:'What workplace challenges make it harder for you to do your best work?',type:'textarea'},
+{t:'What can a manager do that helps you perform at your best?',type:'textarea'}];
+let i=0,answers={};
+function start(){welcome.style.display='none';journey.style.display='block';render();}
+function render(){let item=qs[i];bar.style.width=((i)/qs.length*100)+'%';nextBtn.disabled=true;let html='<h2>Question '+(i+1)+' of '+qs.length+'</h2><h3>'+item.t+'</h3>';
+if(item.type==='text') html+='<input id="answer">';
+else if(item.type==='textarea') html+='<textarea id="answer" maxlength="500"></textarea>';
+else if(item.opts){html+='<div class="tiles">'+item.opts.map(o=>'<div class="tile" onclick="pick(this,`'+o+'`)">'+o+'</div>').join('')+'</div>'}
+else if(item.multi){html+='<p id="mc">0 of 3 selected</p><div class="tiles">'+item.multi.map(o=>'<div class="tile" onclick="multi(this,`'+o+'`)">'+o+'</div>').join('')+'</div>'}
+q.innerHTML=html;
+if(document.getElementById('answer')) document.getElementById('answer').oninput=()=>nextBtn.disabled=false;
+}
+function pick(el,val){document.querySelectorAll('.tile').forEach(t=>t.classList.remove('selected'));el.classList.add('selected');answers[i]=val;nextBtn.disabled=false;}
+function multi(el,val){answers[i]=answers[i]||[];if(el.classList.contains('selected')){el.classList.remove('selected');answers[i]=answers[i].filter(x=>x!==val)}else if(answers[i].length<3){el.classList.add('selected');answers[i].push(val)};document.getElementById('mc').innerText=answers[i].length+' of 3 selected';nextBtn.disabled=answers[i].length===0;}
+function nextQ(){let inp=document.getElementById('answer');if(inp) answers[i]=inp.value; i++; if(i>=qs.length){journey.style.display='none';done.style.display='block';bar.style.width='100%';return;} render();}
+</script></body></html>
