@@ -62,5 +62,5 @@ if(document.getElementById('answer')) document.getElementById('answer').oninput=
 }
 function pick(el,val){document.querySelectorAll('.tile').forEach(t=>t.classList.remove('selected'));el.classList.add('selected');answers[i]=val;nextBtn.disabled=false;}
 function multi(el,val){answers[i]=answers[i]||[];if(el.classList.contains('selected')){el.classList.remove('selected');answers[i]=answers[i].filter(x=>x!==val)}else if(answers[i].length<3){el.classList.add('selected');answers[i].push(val)};document.getElementById('mc').innerText=answers[i].length+' of 3 selected';nextBtn.disabled=answers[i].length===0;}
-function nextQ(){let inp=document.getElementById('answer');if(inp) answers[i]=inp.value; i++; if(i>=qs.length){journey.style.display='none';done.style.display='block';bar.style.width='100%';return;} render();}
+function nextQ()function saveToForm(){console.log("Profile completed");}{let inp=document.getElementById('answer');if(inp) answers[i]=inp.value; i++; if(i>=qs.length){saveToForm();journey.style.display='none';done.style.display='block';bar.style.width='100%';return;} render();}
 </script></body></html>
