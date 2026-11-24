@@ -39,7 +39,7 @@ textarea,input{width:100%;padding:16px;border:2px solid var(--blue);border-radiu
 </div>
 </div></div>
 <script>
-const qs=[
+const qs = [
 {t:'Your Name',type:'text'},
 {t:'Role Applied For',type:'text'},
 {t:'When beginning a new role, I generally:',opts:['Prefer a detailed plan','Prefer guidance with flexibility','Prefer to explore independently','Adapt depending on the situation']},
@@ -49,45 +49,143 @@ const qs=[
 {t:'What helps you feel successful at work? Choose up to 3.',multi:['Clear Goals','Learning Opportunities','Meaningful Work','Career Development','Team Relationships','Feeling Trusted','Autonomy','Recognition','Flexibility','Helping Others']},
 {t:'What helps you do your best work?',type:'textarea'},
 {t:'What workplace challenges make it harder for you to do your best work?',type:'textarea'},
-{t:'What can a manager do that helps you perform at your best?',type:'textarea'}];
-let i=0,answers={};
-start(){welcome.style.display='none';journey.style.display='block';render();}
-render(){let item=qs[i];bar.style.width=((i)/qs.length*100)+'%';nextBtn.disabled=true;let html='<h2>Question '+(i+1)+' of '+qs.length+'</h2><h3>'+item.t+'</h3>';
-if(item.type==='text') html+='<input id="answer">';
-else if(item.type==='textarea') html+='<textarea id="answer" maxlength="500"></textarea>';
-else if(item.opts){html+='<div class="tiles">'+item.opts.map(o=>'<div class="tile" onclick="pick(this,`'+o+'`)">'+o+'</div>').join('')+'</div>'}
-else if(item.multi){html+='<p id="mc">0 of 3 selected</p><div class="tiles">'+item.multi.map(o=>'<div class="tile" onclick="multi(this,`'+o+'`)">'+o+'</div>').join('')+'</div>'}
-q.innerHTML=html;
-if(document.getElementById('answer')) document.getElementById('answer').oninput=()=>nextBtn.disabled=false;
+{t:'What can a manager do that helps you perform at your best?',type:'textarea'}
+];
+
+let i = 0;
+let answers = {};
+
+function start() {
+    welcome.style.display = 'none';
+    journey.style.display = 'block';
+    render();
 }
-pick(el,val){document.querySelectorAll('.tile').forEach(t=>t.classList.remove('selected'));el.classList.add('selected');answers[i]=val;nextBtn.disabled=false;}
-multi(el,val){answers[i]=answers[i]||[];if(el.classList.contains('selected')){el.classList.remove('selected');answers[i]=answers[i].filter(x=>x!==val)}else if(answers[i].length<3){el.classList.add('selected');answers[i].push(val)};document.getElementById('mc').innerText=answers[i].length+' of 3 selected';nextBtn.disabled=answers[i].length===0;}
-function nextQ() {
 
-    let inp = document.getElementById('answer');
+function render() {
 
-    if (inp) {
+    let item = qs[i];
+
+    bar.style.width = ((i) / qs.length * 100) + '%';
+
+    nextBtn.disabled = true;
+
+    let html =
+        '<h2>Question ' + (i + 1) + ' of ' + qs.length + '</h2>' +
+        '<h3>' + item.t + '</h3>';
+
+    if(item.type === 'text'){
+
+        html += '<input id="answer">';
+
+    } else if(item.type === 'textarea'){
+
+        html += '<textarea id="answer" maxlength="500"></textarea>';
+
+    } else if(item.opts){
+
+        html +=
+        '<div class="tiles">' +
+        item.opts.map(o =>
+            '<div class="tile" onclick="pick(this,\'' + o + '\')">' +
+            o +
+            '</div>'
+        ).join('') +
+        '</div>';
+
+    } else if(item.multi){
+
+        html +=
+        '<p id="mc">0 of 3 selected</p>' +
+        '<div class="tiles">' +
+        item.multi.map(o =>
+            '<div class="tile" onclick="multi(this,\'' + o + '\')">' +
+            o +
+            '</div>'
+        ).join('') +
+        '</div>';
+    }
+
+    q.innerHTML = html;
+
+    const answerBox = document.getElementById('answer');
+
+    if(answerBox){
+        answerBox.oninput = () => {
+            nextBtn.disabled = false;
+        };
+    }
+}
+
+function pick(el, val){
+
+    document
+        .querySelectorAll('.tile')
+        .forEach(t => t.classList.remove('selected'));
+
+    el.classList.add('selected');
+
+    answers[i] = val;
+
+    nextBtn.disabled = false;
+}
+
+function multi(el, val){
+
+    answers[i] = answers[i] || [];
+
+    if(el.classList.contains('selected')){
+
+        el.classList.remove('selected');
+
+        answers[i] =
+            answers[i].filter(x => x !== val);
+
+    } else if(answers[i].length < 3){
+
+        el.classList.add('selected');
+
+        answers[i].push(val);
+    }
+
+    document.getElementById('mc').innerText =
+        answers[i].length + ' of 3 selected';
+
+    nextBtn.disabled =
+        answers[i].length === 0;
+}
+
+function nextQ(){
+
+    const inp =
+        document.getElementById('answer');
+
+    if(inp){
         answers[i] = inp.value;
     }
 
     i++;
 
-    if (i >= qs.length) {
+    if(i >= qs.length){
 
         const emailBody = `
 Candidate Name: ${answers[0] || ''}
 
 Role Applied For: ${answers[1] || ''}
 
-Starting a New Role: ${answers[2] || ''}
+Starting a New Role:
+${answers[2] || ''}
 
-Learning Style: ${answers[3] || ''}
+Learning Style:
+${answers[3] || ''}
 
-Feedback Preference: ${answers[4] || ''}
+Feedback Preference:
+${answers[4] || ''}
 
-Remote Working Preference: ${answers[5] || ''}
+Remote Working Preference:
+${answers[5] || ''}
 
-Top Motivators: ${Array.isArray(answers[6]) ? answers[6].join(', ') : ''}
+Top Motivators:
+${Array.isArray(answers[6]) ? answers[6].join(', ') : ''}
 
 What helps you do your best work?
 
@@ -104,11 +202,14 @@ ${answers[9] || ''}
 
         window.location.href =
             'mailto:nurit.bastidas@noodlehealth.com' +
-            '?subject=' + encodeURIComponent('Working Style Profile Submission') +
-            '&body=' + encodeURIComponent(emailBody);
+            '?subject=' +
+            encodeURIComponent('Working Style Profile Submission') +
+            '&body=' +
+            encodeURIComponent(emailBody);
 
         journey.style.display = 'none';
         done.style.display = 'block';
+
         bar.style.width = '100%';
 
         return;
@@ -116,7 +217,4 @@ ${answers[9] || ''}
 
     render();
 }
-
 </script>
-</body>
-</html>
