@@ -65,15 +65,11 @@ function multi(el,val){answers[i]=answers[i]||[];if(el.classList.contains('selec
 function nextQ() {
 
     let inp = document.getElementById('answer');
-
     if (inp) {
         answers[i] = inp.value;
     }
-
     i++;
-
     if (i >= qs.length) {
-
         const emailBody = `
 Candidate Name: ${answers[0] || ''}
 
