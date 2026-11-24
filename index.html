@@ -62,5 +62,10 @@ if(document.getElementById('answer')) document.getElementById('answer').oninput=
 }
 function pick(el,val){document.querySelectorAll('.tile').forEach(t=>t.classList.remove('selected'));el.classList.add('selected');answers[i]=val;nextBtn.disabled=false;}
 function multi(el,val){answers[i]=answers[i]||[];if(el.classList.contains('selected')){el.classList.remove('selected');answers[i]=answers[i].filter(x=>x!==val)}else if(answers[i].length<3){el.classList.add('selected');answers[i].push(val)};document.getElementById('mc').innerText=answers[i].length+' of 3 selected';nextBtn.disabled=answers[i].length===0;}
-function nextQ()function saveToForm(){console.log("Profile completed");}{let inp=document.getElementById('answer');if(inp) answers[i]=inp.value; i++; if(i>=qs.length){saveToForm();journey.style.display='none';done.style.display='block';bar.style.width='100%';return;} render();}
+function nextQ()function saveToForm(){console.log("Profile completed");}{let inp=document.getElementById('answer');if(inp) answers[i]=inp.value; i++; if(i>=qs.length){const emailBody = ` Candidate Name: $[answers[0]} Role Apllied For: $ {answers[1]} Satrting a New Role: ${answers[2]} Learning Style: ${answers[3]} Feedback Preference: ${answers[4]} Remote Working Preference: ${answers [5]} Top Motivators: ${Array.isArray(answers[6]) ? answers[6].join(",") :""} 
+What helps you do your best work? ${answers[7]} 
+What workplace challenges make it harder for you to do your work? ${answers[8]} 
+What can a manager do that helps you perform at your best? ${answers[9]} `;
+window.location.href - "mailto:workingstyle@noodlehealth.com" = "?subject=" + encodeURIComponent("Working Style Profile Submission") + "&body=" + encodeURIComponent(emailBody);                                                                                                                                                                       
+;journey.style.display='none';done.style.display='block';bar.style.width='100%';return;} render();}
 </script></body></html>
