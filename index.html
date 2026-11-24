@@ -168,9 +168,11 @@ function nextQ(){
     if(i >= qs.length){
 
         const emailBody = `
-Candidate Name: ${answers[0] || ''}
+New Starters Name: 
+${answers[0] || ''}
 
-Role Applied For: ${answers[1] || ''}
+Role Applied For: 
+${answers[1] || ''}
 
 Starting a New Role:
 ${answers[2] || ''}
@@ -188,15 +190,12 @@ Top Motivators:
 ${Array.isArray(answers[6]) ? answers[6].join(', ') : ''}
 
 What helps you do your best work?
-
 ${answers[7] || ''}
 
 What workplace challenges make it harder for you to do your best work?
-
 ${answers[8] || ''}
 
 What can a manager do that helps you perform at your best?
-
 ${answers[9] || ''}
 `;
 
